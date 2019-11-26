@@ -1,8 +1,8 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import { signUp } from "../actions";
-import SignUpForm from "./SignUpForm";
+import { signUp } from "../../actions/actions";
+import SignUpForm from "./SignupForm";
 
 class SignUpFormContainer extends React.Component {
   state = { name: "", password: "" };

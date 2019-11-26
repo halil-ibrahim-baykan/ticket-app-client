@@ -7,6 +7,7 @@ export const EVENTS_FETCHED = "EVENTS_FETCHED";
 export const EVENT_CREATE_SUCCESS = "EVENT_CREATE_SUCCESS";
 export const GET_SINGLE_EVENT_SUCCESS = "GET_SINGLE_EVENT_SUCCESS";
 export const EVENT_DELETE_SUCCESS = "EVENT_DELETE_SUCCESS";
+export const TICKETS_FETCHED = "TICKETS_FETCHED";
 
 function jwt(payload) {
   return {
@@ -15,10 +16,10 @@ function jwt(payload) {
   };
 }
 
-export const login = (email, password) => dispatch => {
+export const login = (name, password) => dispatch => {
   cool
     .post(`${baseUrl}/login`)
-    .send({ email, password })
+    .send({ name, password })
     .then(res => {
       const action = jwt(res.body.jwt);
 
@@ -26,10 +27,10 @@ export const login = (email, password) => dispatch => {
     });
 };
 
-export const signUp = (email, password) => dispatch => {
+export const signUp = (name, password) => dispatch => {
   cool
     .post(`${baseUrl}/user`)
-    .send({ email, password })
+    .send({ name, password })
     .then(res => console.log(res, "SIGN UP SENDD"));
 };
 
@@ -42,8 +43,37 @@ export const loadEvents = () => (dispatch, getState) => {
   if (getState().events) return; // you can ask here
   cool(`${baseUrl}/event`)
     .then(res => {
-      console.log(res.body, "ress.boddyyyyyy");
       dispatch(eventsFetched(res.body));
+    })
+    .catch(err => console.error(err));
+};
+
+const eventCreateSuccess = event => ({
+  type: EVENT_CREATE_SUCCESS,
+  event
+});
+
+export const createEvent = data => (dispatch, getState) => {
+  const { user } = getState();
+  cool
+    .post(`${baseUrl}/event`)
+    .set("Authorization", `Bearer ${user}`)
+    .send(data)
+    .then(response => {
+      dispatch(eventCreateSuccess(response.body));
+    })
+    .catch(err => console.error(err));
+};
+
+const ticketsFetched = tickets => ({
+  type: TICKETS_FETCHED,
+  tickets
+});
+
+export const loadTickets = id => (dispatch, getState) => {
+  cool(`${baseUrl}/event/${id}/tickets`)
+    .then(res => {
+      dispatch(ticketsFetched(res.body));
     })
     .catch(err => console.error(err));
 };

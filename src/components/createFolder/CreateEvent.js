@@ -12,6 +12,7 @@ export default function CreateEvent(props) {
           value={props.values.url}
           onChange={props.onChange}
         />
+        <br />
         <label>Name:</label>
         <input
           id="name"
@@ -20,6 +21,8 @@ export default function CreateEvent(props) {
           value={props.values.name}
           onChange={props.onChange}
         />
+        <br />
+
         <label>Description:</label>
         <input
           id="description"
@@ -28,6 +31,8 @@ export default function CreateEvent(props) {
           value={props.values.description}
           onChange={props.onChange}
         />
+        <br />
+
         <label>Start Date:</label>
         <input
           id="sDate"
@@ -36,6 +41,8 @@ export default function CreateEvent(props) {
           value={props.values.startDate}
           onChange={props.onChange}
         />
+
+        <br />
         <label>End Date:</label>
         <input
           id="eDate"
@@ -44,6 +51,7 @@ export default function CreateEvent(props) {
           value={props.values.endDate}
           onChange={props.onChange}
         />
+        <br />
 
         <button type="submit" name="button">
           save

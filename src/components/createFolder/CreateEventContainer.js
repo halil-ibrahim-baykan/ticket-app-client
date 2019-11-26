@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createEvent } from "../actions/events";
+import { createEvent } from "../../actions/actions";
 import CreateEvent from "./CreateEvent";
 
 class CreateEventContainer extends Component {

@@ -2,7 +2,7 @@ import {
   EVENTS_FETCHED,
   EVENT_CREATE_SUCCESS,
   GET_SINGLE_EVENT_SUCCESS,
-  EVENT_DELETE_SUCCESS
+  EVENT_DELETE_SUCCESS,
 } from "../actions/actions"; //
 
 const reducer = (state = null, action = {}) => {
@@ -16,6 +16,7 @@ const reducer = (state = null, action = {}) => {
       return action.event;
     case EVENT_DELETE_SUCCESS:
       return state && state.filter(event => action.eventId !== event.id);
+  
     //state && state.filter i anlamadim
     // => state'te eventslerim var id'si sildigimin id'simne esit olani filtreledim
 
