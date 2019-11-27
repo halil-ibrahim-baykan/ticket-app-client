@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CreateEvent(props) {
+export default function CreateTicket(props) {
   return (
     <div>
       <form onSubmit={props.onSubmit}>
@@ -12,6 +12,7 @@ export default function CreateEvent(props) {
           value={props.values.name}
           onChange={props.onChange}
         />
+        <br/>
         <label>Description:</label>
         <input
           id="description"
@@ -20,6 +21,7 @@ export default function CreateEvent(props) {
           value={props.values.description}
           onChange={props.onChange}
         />
+        <br />
         <label>Price:</label>
         <input
           id="price"
@@ -28,6 +30,7 @@ export default function CreateEvent(props) {
           value={props.values.price}
           onChange={props.onChange}
         />
+        <br />
 
         <button type="submit" name="button">
           Create Ticket

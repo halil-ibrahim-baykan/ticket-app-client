@@ -9,7 +9,9 @@ export default class TicketDetails extends Component {
         <h1>Name: {this.props.ticket.name}</h1>
         <h3>Description: {this.props.ticket.description}</h3>
         <p>Price: {this.props.ticket.price}</p>
-        <button onClick={this.props.onDelete}>Delete</button>
+        <p>Risk: {this.props.ticket.risk}</p>
+        <p>Author: {this.props.ticket.user.name}</p>
+        {/* <button onClick={this.props.onDelete}>Delete</button> */}
       </div>
     );
   }

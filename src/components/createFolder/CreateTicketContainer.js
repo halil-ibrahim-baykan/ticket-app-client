@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createTicket } from "../actions/events";
+import { createTicket } from "../../actions/actions";
 import CreateTicket from "./CreateTicket";
 
 class CreateTicketContainer extends Component {
   state = {
     name: "",
     description: "",
-    price: ""
+    price: "",
+    eventId: this.props.eventId
   };
 
   onChange = event => {
@@ -21,7 +22,6 @@ class CreateTicketContainer extends Component {
     this.props.createTicket(this.state);
     this.setState({
       name: "",
-      // author:"",
       description: "",
       price: ""
     });

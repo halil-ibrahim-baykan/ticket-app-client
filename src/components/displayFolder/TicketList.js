@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
-export default class TicketList extends Component {
+import CreateTicketContainer from "../createFolder/CreateTicketContainer";
+import { connect } from "react-redux";
+class TicketList extends Component {
   renderTableData = () => {
-    if (!this.props.tickets) {
+    if (!this.props.tickets || !this.props.tickets.length) {
       return "Loading tickets...";
     }
     return this.props.tickets.map((ticket, index) => {
-      const { id, name, description, price } = ticket; //destructuring
+      if (!ticket) {
+        return <h3>Loading</h3>;
+      }
+      const { id, name, description, price, user, risk } = ticket; //destructuring
       return (
         <tr key={id}>
           {/* <td>{id}</td> */}
@@ -16,6 +20,8 @@ export default class TicketList extends Component {
           </td>
           <td>{description}</td>
           <td>{price}</td>
+          <td>{risk}</td>
+          <td>{user.name}</td>
         </tr>
       );
     });
@@ -32,11 +38,27 @@ export default class TicketList extends Component {
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
+              <th>Risk</th>
+              <th>Author</th>
             </tr>
           </thead>
           <tbody>{this.renderTableData()}</tbody>
         </table>
+        <br />
+        <hr />
+        <br />
+        {this.props.user && (
+          <CreateTicketContainer eventId={this.props.eventId} />
+        )}
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(TicketList);

@@ -3,14 +3,21 @@ import cool from "superagent";
 const baseUrl = "http://localhost:4000";
 
 export const JWT = "JWT";
+
 export const EVENTS_FETCHED = "EVENTS_FETCHED";
 export const EVENT_CREATE_SUCCESS = "EVENT_CREATE_SUCCESS";
 export const GET_SINGLE_EVENT_SUCCESS = "GET_SINGLE_EVENT_SUCCESS";
 export const EVENT_DELETE_SUCCESS = "EVENT_DELETE_SUCCESS";
+
 export const TICKETS_FETCHED = "TICKETS_FETCHED";
 export const TICKET_CREATE_SUCCESS = "TICKET_CREATE_SUCCESS";
 export const GET_SINGLE_TICKET_SUCCESS = "GET_SINGLE_TICKET_SUCCESS";
 export const TICKET_DELETE_SUCCESS = "EVENT_DELETE_SUCCESS";
+
+export const COMMENTS_FETCHED = "COMMENTS_FETCHED";
+export const COMMENT_CREATE_SUCCESS = "COMMENT_CREATE_SUCCESS";
+export const GET_SINGLE_COMMENT_SUCCESS = "GET_SINGLE_COMMENT_SUCCESS";
+export const COMMENT_DELETE_SUCCESS = "COMMENT_DELETE_SUCCESS";
 
 // security---------------------------------------------------------------------------------------------------------------------
 function jwt(payload) {
@@ -90,7 +97,6 @@ export const deleteEvent = id => (dispatch, getState) => {
     .set("Authorization", `Bearer ${user}`)
     .then(res => dispatch(eventDeleteSuccess(id)));
 };
-
 //Ticket---------------------------------------------------------------------------------------------------------------------
 const ticketsFetched = tickets => ({
   type: TICKETS_FETCHED,
@@ -105,9 +111,9 @@ export const loadTickets = id => dispatch => {
     .catch(err => console.error(err));
 };
 //----------------------------------------------
-const ticketCreateSuccess = event => ({
+const ticketCreateSuccess = ticket => ({
   type: TICKET_CREATE_SUCCESS,
-  event
+  ticket
 });
 
 export const createTicket = data => (dispatch, getState) => {
@@ -135,7 +141,7 @@ export const loadTicket = id => dispatch => {
 };
 //----------------------------------------------
 const ticketDeleteSuccess = ticketId => ({
-  type: EVENT_DELETE_SUCCESS,
+  type: TICKET_DELETE_SUCCESS,
   ticketId
 });
 
@@ -146,4 +152,60 @@ export const deleteTicket = id => (dispatch, getState) => {
     .set("Authorization", `Bearer ${user}`)
     .delete(`${baseUrl}/ticket/${id}`)
     .then(res => dispatch(ticketDeleteSuccess(id)));
+};
+//Comment---------------------------------------------------------------------------------------------------------------------
+const commentsFetched = comments => ({
+  type: COMMENTS_FETCHED,
+  comments
+});
+
+export const loadComments = id => dispatch => {
+  cool(`${baseUrl}/event/${id}/comments`)
+    .then(res => {
+      dispatch(commentsFetched(res.body));
+    })
+    .catch(err => console.error(err));
+};
+//----------------------------------------------
+const commentCreateSuccess = event => ({
+  type: COMMENT_CREATE_SUCCESS,
+  event
+});
+
+export const createComment = data => (dispatch, getState) => {
+  const { user } = getState();
+  cool
+    .post(`${baseUrl}/comment`)
+    .set("Authorization", `Bearer ${user}`)
+    .send(data)
+    .then(response => {
+      dispatch(commentCreateSuccess(response.body));
+    })
+    .catch(err => console.error(err));
+};
+//----------------------------------------------
+const getSingleCommentSuccess = ticket => ({
+  type: GET_SINGLE_COMMENT_SUCCESS,
+  ticket
+});
+
+export const loadComment = id => dispatch => {
+  cool(`${baseUrl}/comment/${id}`).then(selectedComment => {
+    // console.log(selectedTicket.body, "SELECTED TICKETTTTTTT");
+    dispatch(getSingleCommentSuccess(selectedComment.body));
+  });
+};
+//----------------------------------------------
+const commentDeleteSuccess = ticketId => ({
+  type: COMMENT_DELETE_SUCCESS,
+  ticketId
+});
+
+export const deleteComment = id => (dispatch, getState) => {
+  const { user } = getState();
+
+  cool
+    .set("Authorization", `Bearer ${user}`)
+    .delete(`${baseUrl}/comment/${id}`)
+    .then(res => dispatch(commentDeleteSuccess(id)));
 };
