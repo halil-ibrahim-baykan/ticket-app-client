@@ -2,21 +2,41 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export default class TicketList extends Component {
-  render() {
-    if (!this.props.tickets) return "Loading...";
+  renderTableData = () => {
+    if (!this.props.tickets) {
+      return "Loading tickets...";
+    }
+    return this.props.tickets.map((ticket, index) => {
+      const { id, name, description, price } = ticket; //destructuring
+      return (
+        <tr key={id}>
+          {/* <td>{id}</td> */}
+          <td>
+            <Link to={`/ticket/${ticket.id}`}>{name}</Link>
+          </td>
+          <td>{description}</td>
+          <td>{price}</td>
+        </tr>
+      );
+    });
+  };
 
+  render() {
     return (
-      <ul>
-        {!this.props.tickets && <li>Loading tickets...</li>}
-        {this.props.tickets &&
-          this.props.tickets.map(ticket => {
-            return (
-              <li key={ticket.id}>
-                <Link to={`ticket/${ticket.id}`}>{ticket.name}</Link>
-              </li>
-            );
-          })}
-      </ul>
+      <div>
+        {!this.props.tickets && <p>Loading tickets...</p>}
+        <h1 id="title">Tickets</h1>
+        <table id="tickets">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderTableData()}</tbody>
+        </table>
+      </div>
     );
   }
 }

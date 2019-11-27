@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import EventListContainer from "../displayFolder/EventListContainer";
+// import EventListContainer from "../displayFolder/EventListContainer";
 import LoginFormContainer from "../security/LoginFormContainer";
 import SignupFormContainer from "../security/SignupFormContainer";
 import CreateEventContainer from "../createFolder/CreateEventContainer";
@@ -17,8 +17,8 @@ class Home extends Component {
         )}
         {this.props.user && <CreateEventContainer />}
 
-        <br />
-        <EventListContainer />
+        {/* <br />
+        <EventListContainer /> */}
       </div>
     );
   }

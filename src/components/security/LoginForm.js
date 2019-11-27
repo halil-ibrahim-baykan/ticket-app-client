@@ -14,17 +14,17 @@ export default function CreateForm(props) {
         onChange={onChange}
         placeholder="name"
       />
-            <label>Name:</label>
-
+      <br />
+      <label>Password:</label>
       <input
-        type="text"
+        type="password"
         name="password"
         value={password}
         onChange={onChange}
         placeholder="password"
       />
-
-      <button type="submit">Submit</button>
+      <br />
+      <button type="submit">Log in</button>
     </form>
   );
 }

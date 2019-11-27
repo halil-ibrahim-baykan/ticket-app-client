@@ -15,7 +15,10 @@ class TicketListContainer extends React.Component {
     return (
       <div>
         {this.props.tickets[0] && this.props.tickets[0].event.name}
-        <TicketList tickets={this.props.tickets} />
+        <TicketList
+          tickets={this.props.tickets}
+          eventId={this.props.match.params.id}
+        />
       </div>
     );
   }
@@ -26,3 +29,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, { loadTickets })(TicketListContainer);
+

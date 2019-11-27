@@ -12,14 +12,6 @@ export default function CreateEvent(props) {
           value={props.values.name}
           onChange={props.onChange}
         />
-        {/* <label>Author:</label>
-        <input
-          id="name"
-          type="text"
-          name="author"
-          value={props.values.author}
-          onChange={props.onChange}
-        /> */}
         <label>Description:</label>
         <input
           id="description"
@@ -31,14 +23,14 @@ export default function CreateEvent(props) {
         <label>Price:</label>
         <input
           id="price"
-          type="text"
+          type="ntext"
           name="price"
           value={props.values.price}
           onChange={props.onChange}
         />
-  
+
         <button type="submit" name="button">
-          save
+          Create Ticket
         </button>
       </form>
     </div>

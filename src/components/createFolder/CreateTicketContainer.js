@@ -6,7 +6,6 @@ import CreateTicket from "./CreateTicket";
 class CreateTicketContainer extends Component {
   state = {
     name: "",
-    // author:"",
     description: "",
     price: ""
   };

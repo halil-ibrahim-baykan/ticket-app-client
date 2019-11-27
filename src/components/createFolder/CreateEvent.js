@@ -4,7 +4,7 @@ export default function CreateEvent(props) {
   return (
     <div>
       <form onSubmit={props.onSubmit}>
-        <label>Url:</label>
+        <label>Image-Url:</label>
         <input
           id="url"
           type="text"
@@ -54,7 +54,7 @@ export default function CreateEvent(props) {
         <br />
 
         <button type="submit" name="button">
-          save
+          Create Event
         </button>
       </form>
     </div>
