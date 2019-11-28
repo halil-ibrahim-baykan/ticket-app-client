@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export default class EventsList extends Component {
   renderTableData = () => {
     if (!this.props.events) {
-      return "Loading events...";
+      return <th>Loading events...</th>;
     }
     return this.props.events.map((event, index) => {
-      const { id, name, description, url, startDate, endDate } = event; //destructuring
+      const { id, name, description, url, startDate, endDate } = event;
       return (
         <tr key={id}>
           {/* <td>{id}</td> */}

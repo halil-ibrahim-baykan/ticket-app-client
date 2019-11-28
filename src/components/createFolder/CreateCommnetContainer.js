@@ -6,8 +6,7 @@ import CreateComment from "./CreateComment";
 class CreateCommentContainer extends Component {
   state = {
     comment: "",
-    // name: "",
-   
+    ticketId: this.props.ticketId
   };
 
   onChange = event => {
@@ -20,9 +19,7 @@ class CreateCommentContainer extends Component {
     event.preventDefault();
     this.props.createComment(this.state);
     this.setState({
-      comment: "",
-      // name: ""
-      
+      comment: ""
     });
   };
 

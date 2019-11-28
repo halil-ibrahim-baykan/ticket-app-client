@@ -18,8 +18,6 @@ class LoginFormContainer extends Component {
   };
 
   render() {
-    //checkm if this.prop.jwt != "" and this.props
-    //then redirect
     return (
       <LoginForm
         onSubmit={this.onSubmit}

@@ -31,7 +31,10 @@ export const login = (name, password) => dispatch => {
   cool
     .post(`${baseUrl}/login`)
     .send({ name, password })
-    .then(res => dispatch(jwt(res.body.jwt)));
+    .then(res => {
+      // console.log("THIS IS JWT FROM DB....", res.body.jwt); don't write on console all the time it's unsecure
+      dispatch(jwt(res.body.jwt));
+    });
 };
 //----------------------------------------------
 export const signUp = (name, password) => dispatch => {
@@ -50,7 +53,10 @@ const eventsFetched = events => ({
 export const loadEvents = () => (dispatch, getState) => {
   if (getState().events) return;
   cool(`${baseUrl}/event`)
-    .then(res => dispatch(eventsFetched(res.body)))
+    .then(res => {
+      console.log("RES.BODY => ALL EVENTSSS", res.body);
+      return dispatch(eventsFetched(res.body));
+    })
     .catch(err => console.error(err));
 };
 //----------------------------------------------
@@ -59,14 +65,16 @@ const eventCreateSuccess = event => ({
   event
 });
 
-export const createEvent = data => (dispatch, getState) => {
-  const { user } = getState();
+export const createEvent = eventData => (dispatch, getState) => {
+  const { user } = getState(); // this user => JWT
+  console.log("I'M STATE", getState());
   cool
     .post(`${baseUrl}/event`)
     .set("Authorization", `Bearer ${user}`)
-    .send(data)
-    .then(response => {
-      dispatch(eventCreateSuccess(response.body));
+    .send(eventData) //eventData(name,desc,url,sDate,eDate)
+    .then(responsewithUserId => {
+      console.log("RESPONSE.BODY", responsewithUserId.body);
+      dispatch(eventCreateSuccess(responsewithUserId.body));
     })
     .catch(err => console.error(err));
 };
@@ -104,9 +112,10 @@ const ticketsFetched = tickets => ({
 });
 
 export const loadTickets = id => dispatch => {
-  cool(`${baseUrl}/event/${id}/tickets`)
+  cool(`${baseUrl}/event/${id}/tickets`) // this path goes event router because that the tickets inside the particular event(id)
     .then(res => {
-      dispatch(ticketsFetched(res.body));
+      console.log("RES_BODY TICKETS IN THE SELECTED EVENTTTT", res.body);
+      return dispatch(ticketsFetched(res.body));
     })
     .catch(err => console.error(err));
 };
@@ -135,7 +144,10 @@ const getSingleTicketSuccess = ticket => ({
 
 export const loadTicket = id => dispatch => {
   cool(`${baseUrl}/ticket/${id}`).then(selectedTicket => {
-    // console.log(selectedTicket.body, "SELECTED TICKETTTTTTT");
+    console.log(
+      selectedTicket.body,
+      "EVERYTHING ABOUT THE SELECTED TICKETTTTTTT..."
+    );
     dispatch(getSingleTicketSuccess(selectedTicket.body));
   });
 };
@@ -159,17 +171,19 @@ const commentsFetched = comments => ({
   comments
 });
 
-export const loadComments = id => dispatch => {
-  cool(`${baseUrl}/event/${id}/comments`)
+export const loadComments = ticketId => dispatch => {
+  cool(`${baseUrl}/comment/${ticketId}`)
     .then(res => {
+      console.log("COMMENTSSSS", res.body);
+
       dispatch(commentsFetched(res.body));
     })
     .catch(err => console.error(err));
 };
 //----------------------------------------------
-const commentCreateSuccess = event => ({
+const commentCreateSuccess = comment => ({
   type: COMMENT_CREATE_SUCCESS,
-  event
+  comment
 });
 
 export const createComment = data => (dispatch, getState) => {
@@ -182,18 +196,6 @@ export const createComment = data => (dispatch, getState) => {
       dispatch(commentCreateSuccess(response.body));
     })
     .catch(err => console.error(err));
-};
-//----------------------------------------------
-const getSingleCommentSuccess = ticket => ({
-  type: GET_SINGLE_COMMENT_SUCCESS,
-  ticket
-});
-
-export const loadComment = id => dispatch => {
-  cool(`${baseUrl}/comment/${id}`).then(selectedComment => {
-    // console.log(selectedTicket.body, "SELECTED TICKETTTTTTT");
-    dispatch(getSingleCommentSuccess(selectedComment.body));
-  });
 };
 //----------------------------------------------
 const commentDeleteSuccess = ticketId => ({

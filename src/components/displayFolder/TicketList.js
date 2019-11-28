@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import CreateTicketContainer from "../createFolder/CreateTicketContainer";
 import { connect } from "react-redux";
 class TicketList extends Component {
+  getRiskColor(risk) {
+    if (risk > 70) {
+      return "red";
+    }
+    if (risk > 35) {
+      return "orange";
+    }
+    return "green";
+  }
+
   renderTableData = () => {
     if (!this.props.tickets || !this.props.tickets.length) {
-      return "Loading tickets...";
+      return;
     }
     return this.props.tickets.map((ticket, index) => {
       if (!ticket) {
@@ -13,22 +23,24 @@ class TicketList extends Component {
       }
       const { id, name, description, price, user, risk } = ticket; //destructuring
       return (
-        <tr key={id}>
-          {/* <td>{id}</td> */}
-          <td>
-            <Link to={`/ticket/${ticket.id}`}>{name}</Link>
-          </td>
-          <td>{description}</td>
-          <td>{price}</td>
-          <td>{risk}</td>
-          <td>{user.name}</td>
-        </tr>
+        user && (
+          <tr key={id}>
+            {/* <td>{id}</td> */}
+            <td>
+              <Link to={`/ticket/${ticket.id}`}>{name}</Link>
+            </td>
+            <td>{description}</td>
+            <td>{price}</td>
+            <td style={{ color: this.getRiskColor(risk) }}>{risk}</td>
+            <td>{user.name}</td>
+          </tr>
+        )
       );
     });
   };
 
   render() {
-    return (
+    return this.props.tickets ? (
       <div>
         {!this.props.tickets && <p>Loading tickets...</p>}
         <h1 id="title">Tickets</h1>
@@ -51,6 +63,8 @@ class TicketList extends Component {
           <CreateTicketContainer eventId={this.props.eventId} />
         )}
       </div>
+    ) : (
+      <p>Loading</p>
     );
   }
 }
